@@ -1,0 +1,25 @@
+{
+  "name": "quicknoteapi",
+  "version": "1.0.0",
+  "description": "api for quick note app",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon server",
+    "start": "node server",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RosaGao/QuickNoteApi.git"
+  },
+  "keywords": [],
+  "author": "Rosa Gao",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RosaGao/QuickNoteApi/issues"
+  },
+  "homepage": "https://github.com/RosaGao/QuickNoteApi#readme",
+  "dependencies": {
+    "express": "^4.17.3"
+  }
+}
