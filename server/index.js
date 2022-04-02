@@ -18,6 +18,11 @@ app.get("/", (request, response)=>{
   response.send("api app!");
 });
 
+app.get("/api/notes", async (request, response)=>{
+  const data = await notes.readAll();
+  response.json({ data });
+})
+
 app.listen(port, ()=>{
   console.log(`Express app listening at port ${port}`);
 });
