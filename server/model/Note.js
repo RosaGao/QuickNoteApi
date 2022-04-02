@@ -2,7 +2,7 @@ const { v4: uuidv4 } = require("uuid");
 
 class Note {
   constructor(title, text) {
-    this.id = uuidv4();
+    this._id = uuidv4();
     this.title = title;
     this.text = text;
   }
