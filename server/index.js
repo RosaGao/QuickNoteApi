@@ -11,7 +11,6 @@ for(let i = 0; i < NUM_SAMPLES; i++) {
   });
 }
 
-
 const app = express();
 const port = process.env.PORT || 3000;
 
