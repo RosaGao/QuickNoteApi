@@ -14,14 +14,17 @@ for(let i = 0; i < NUM_SAMPLES; i++) {
 const app = express();
 const port = process.env.PORT || 3000;
 
+
 app.get("/", (request, response)=>{
   response.send("api app!");
 });
 
-app.get("/api/notes", async (request, response)=>{
-  const data = await notes.readAll();
-  response.json({ data });
-})
+app.get("/api/notes", async (req, res) => {
+  const { query } = req.query;
+  const data = await notes.readAll(query);
+  res.json({ data });
+});
+
 
 app.listen(port, ()=>{
   console.log(`Express app listening at port ${port}`);
