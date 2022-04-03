@@ -7,11 +7,8 @@ class NoteDao {
   }
 
   async create({ title, text }){
-    if (!title) {
-      throw new ApiError(400, "Note must have a valid title");
-    }
-    if (!text) {
-      throw new ApiError(400, "Note must have a valid text body");
+    if (!title && !text) {
+      throw new ApiError(400, "Note must have a valid body");
     }
 
     const newNote = new Note(title, text);
@@ -52,7 +49,6 @@ class NoteDao {
   async read( id ) {
     const note = this.notes.find((note)=>note._id === id);
     return note;
-
   }
 
   async readAll(query = "") {
