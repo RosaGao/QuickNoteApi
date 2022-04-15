@@ -47,10 +47,10 @@ class NoteDao {
 
   async readAll(query = "") {
     if (query !== "") {
-      const notes = Note.find().or([{ title : query }, { text: euqry }]);
+      const notes = await Note.find().or([{ title : query }, { text: query }]);
       return notes;
     }
-    const notes = Note.find({});
+    const notes = await Note.find({});
     return notes; 
   }
   
