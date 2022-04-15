@@ -51,3 +51,16 @@ Request Query Param
 Request Body          JSON object(note attributes))
 Response Body         JSON object(updated note)
 Response Status       200
+
+
+collection:
+  a single entity in the app
+    e.g. notes, users ...
+
+document:
+  an instance of the collection entity
+  looks like a JSON object
+    e.g. note (each "note" document contains attributes like "title", "text")
+
+schema:
+  JSON object defining the shape and content of a document

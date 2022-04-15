@@ -1,15 +1,10 @@
 const express = require("express");
-const faker = require("faker");
 const NoteDao = require("./data/NoteDao");
+const db = require("./data/db");
 
-const NUM_SAMPLES = 3;
 const notes = new NoteDao();
-for(let i = 0; i < NUM_SAMPLES; i++) {
-  notes.create({
-    title: faker.lorem.sentence(),
-    text: faker.lorem.paragraph(),
-  });
-}
+
+db.connect();
 
 const app = express();
 app.use(express.json()); // allow Express to parse the request body
@@ -65,9 +60,6 @@ app.put("/api/notes/:id", async (req,res)=>{
 })
 
 
-
-
 app.listen(port, ()=>{
   console.log(`Express app listening at port ${port}`);
 });
-

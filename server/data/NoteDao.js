@@ -2,61 +2,56 @@ const Note = require("../model/Note");
 const ApiError = require("../model/ApiError");
 
 class NoteDao {
-  constructor() {
-    this.notes = [];
-  }
 
   async create({ title, text }){
     if (!title && !text) {
       throw new ApiError(400, "Note must have a valid body");
     }
 
-    const newNote = new Note(title, text);
-    this.notes.push(newNote);
-    return newNote;
+    const note = await Note.create({ title, text });
+    return note;
   }
 
 
-  async update( id, { title, text }){
-
-    const index = this.notes.findIndex((note)=>note._id === id);
+  async update( id, { title, text } ){
     
-    if (index === -1) {
-      throw new ApiError(404, "Given ID not found");
+    const note = await Note.findByIdAndUpdate(
+      id,
+      { title, text },
+      { new: true, runValidators: true }
+    );
+
+    if (!note) {
+      throw new ApiError(404, "There is no note with the given ID!");
     }
 
-    if (title) {
-      this.notes[index].title = title;
-    }
-    if (text) {
-      this.notes[index].text = text;
-    }
-    return this.notes[index];
+    return note;
   }
 
   async delete( id ) {
-    const index = this.notes.findIndex((note)=>note._id === id);
-    if (index === -1) {
+    const note = await Note.findByIdAndDelete(id);
+
+    if (!note) {
       throw new ApiError(404, "Given ID not found");
     }
-    const note = this.notes[index];
-    this.notes.splice(index, 1);
+
     return note;
 
   }
 
   // return empty array if no matching note
   async read( id ) {
-    const note = this.notes.find((note)=>note._id === id);
-    return note;
+    const note = await Note.findById(id);
+    return note ? note : [];
   }
 
   async readAll(query = "") {
-    if (query){
-      return this.notes.filter((note)=>note.title.includes(query) 
-      || note.text.includes(query));
-    } 
-    return this.notes;
+    if (query !== "") {
+      const notes = Note.find().or([{ title : query }, { text: euqry }]);
+      return notes;
+    }
+    const notes = Note.find({});
+    return notes; 
   }
   
 }
