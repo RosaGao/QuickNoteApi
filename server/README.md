@@ -64,3 +64,15 @@ document:
 
 schema:
   JSON object defining the shape and content of a document
+
+
+
+
+model is a compiled version of schema
+document is an instance of model
+collection contains models
+
+ModelDao hides the implementaiton details of Model
+but essentailly we manipulate a document w/ Model
+(model methods: findByIdAndUpdate, deleteMany...)
+

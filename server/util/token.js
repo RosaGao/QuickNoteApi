@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 const createToken = (user) =>{
   return jwt.sign(
     {
-      sub: user._id,
+      sub: user._id, // subject claim, set as user id
       username: user.username,
       role: user.role,
     },
