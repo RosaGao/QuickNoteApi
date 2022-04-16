@@ -7,7 +7,7 @@ const createToken = (user) =>{
       username: user.username,
       role: user.role,
     },
-    process.env.JWR_SECRET, // we would store generated token
+    process.env.JWT_SECRET, // we would store generated token (public key)
     {                       // as JWR_SECRET in the .env file
       algorithm: "HS256",   // never hard-code secrets into codebase
       expiresIn: "2d",
@@ -19,11 +19,11 @@ const verifyToken = (token) =>{
   return new Promise((resolve, reject)=>{
     jwt.verify(
       token,
-      process.env.JWR_SECRET,
+      process.env.JWT_SECRET,
       { algorithms: ["HS256"] },
       (err, _decoded)=>{
         if (err) {
-          reject(false); // if time expires, also resolves false
+          resolve(false); // if time expires, also resolves to false
         } else {
           resolve(true);
         }
@@ -32,7 +32,15 @@ const verifyToken = (token) =>{
   });
 };
 
+const decodeToken = (token) =>{
+  const decoded = jwt.decode(token);
+  return decoded;
+}
+
+
+
 module.exports = {
   createToken,
   verifyToken,
+  decodeToken
 };
