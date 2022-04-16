@@ -47,7 +47,14 @@ class NoteDao {
 
   async readAll(query = "") {
     if (query !== "") {
-      const notes = await Note.find().or([{ title : query }, { text: query }]);
+      const notes = await Note.find().or([
+        { title :
+          { "$regex": query, "$options": "i"} 
+        }, 
+        { text:
+          { "$regex": query, "$options": "i" }
+        }
+      ]);
       return notes;
     }
     const notes = await Note.find({});
