@@ -6,8 +6,8 @@ const users = new UserDao();
 
 router.post("/register", async (req, res)=>{
   try {
-    const { username, password, role } = req.body;
-    const data = await users.create({ username, password, role });
+    const { username, password } = req.body;
+    const data = await users.create({ username, password, role: "CLIENT" });
     res.status(201).json({data});
   } catch (err) {
     res.status(err.status || 500).json({ message:err.message });
@@ -23,7 +23,9 @@ router.post("/authenticate", async (req, res)=>{
   }
 
   try {
-    const user = await users.readOne({ username });
+    // readOne must use findOne, returning one object
+    // find returns an array
+    const user = await users.readOne(username);
     if (!user || user.password !== password) {
       // since we have code below this condition, explicitly
       // use return to break the router handler function so that 
