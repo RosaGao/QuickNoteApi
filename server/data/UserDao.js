@@ -50,7 +50,7 @@ class UserDao {
 
   // return null if no user is found
   async readOne(username) {
-    const user = await User.find({ username });
+    const user = await User.findOne({ username }); // find returns an array, findOne returns an object
     return user;
   }
 
