@@ -24,9 +24,11 @@ class UserDao {
 
   // update or reset password / change role
   async update(id, { password, role }) {
+    // must also use hashed password when updating
+    const hashedPassword = await hashPassword(password);
     const user = await User.findByIdAndUpdate(
       id, 
-      { password, role },
+      { password: hashedPassword, role },
       { new: true, runValidators: true }
     );
 
