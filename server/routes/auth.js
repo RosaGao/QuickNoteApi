@@ -5,7 +5,9 @@ const UserDao = require("../data/UserDao");
 const users = new UserDao();
 
 const { verifyPassword } = require("../util/hasing");
-const { createToken } = require("../util/token");
+const { createToken, verifyToken } = require("../util/token");
+
+
 
 router.post("/register", async (req, res)=>{
   try {
@@ -51,5 +53,25 @@ router.post("/authenticate", async (req, res)=>{
     });
   }
 });
+
+router.post("/verify", async (req, res)=>{
+  const { token } = req.body;
+  const isValid = await verifyToken(token);
+
+  if (!isValid) {
+    return res.status(403).json({
+      message: "Invalid or expired token!",
+    });
+  }
+
+  return res.json({
+    message: "Token verified and is valid!",
+    token: token,
+  });
+})
+
+
+
+
 
 module.exports = router;
