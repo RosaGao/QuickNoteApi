@@ -1,5 +1,7 @@
 const User = require("../model/User");
 const ApiError = require("../model/ApiError");
+const { hashPassword } = require("../util/hasing");
+const { hash } = require("bcrypt");
 
 class UserDao {
 
@@ -15,7 +17,8 @@ class UserDao {
       throw new ApiError(400, "Every user must have a valid role!");
     }
 
-    const user = await User.create({ username, password, role });
+    const hashedPassword = await hashPassword(password);
+    const user = await User.create({ username, password: hashedPassword, role });
     return user;
   }
 

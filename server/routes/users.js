@@ -5,7 +5,7 @@ const router = express.Router();
 const users = new UserDao();
 
 router.get("/api/users", async (req, res)=>{
-  // query name is "username" and "role", must match exectly
+  // query name is "username" and "role", must match exactly
   const { username, role } = req.query; 
   if (username && role) {
     res

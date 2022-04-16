@@ -4,6 +4,9 @@ const router = express.Router();
 const UserDao = require("../data/UserDao");
 const users = new UserDao();
 
+const { verifyPassword } = require("../util/hasing");
+const { createToken } = require("../util/token");
+
 router.post("/register", async (req, res)=>{
   try {
     const { username, password } = req.body;
@@ -26,7 +29,8 @@ router.post("/authenticate", async (req, res)=>{
     // readOne must use findOne, returning one object
     // find returns an array
     const user = await users.readOne(username);
-    if (!user || user.password !== password) {
+    const isAuthenticated = await verifyPassword(password, user ? user.password : "");
+    if (!isAuthenticated) {
       // since we have code below this condition, explicitly
       // use return to break the router handler function so that 
       // the rest part will be unreachable
@@ -35,9 +39,10 @@ router.post("/authenticate", async (req, res)=>{
         message: "Wrong username or password!"
       });
     } else {
+      const token = createToken(user);
       return res.json({ 
         message: "Authtication successful!",
-        data: user,
+        token: token,
       });
     }
   } catch(err) {
