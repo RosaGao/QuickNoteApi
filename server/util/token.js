@@ -7,7 +7,7 @@ const createToken = (user) =>{
       username: user.username,
       role: user.role,
     },
-    process.env.JWT_SECRET, // we would store generated token (public key)
+    `${process.env.JWT_SECRET}`, // we would store generated token (public key)
     {                       // as JWR_SECRET in the .env file
       algorithm: "HS256",   // never hard-code secrets into codebase
       expiresIn: "2d",
