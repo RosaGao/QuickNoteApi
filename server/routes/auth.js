@@ -12,8 +12,12 @@ const { createToken, verifyToken } = require("../util/token");
 router.post("/register", async (req, res)=>{
   try {
     const { username, password } = req.body;
-    const data = await users.create({ username, password, role: "CLIENT" });
-    res.status(201).json({data});
+    const user = await users.create({ username, password, role: "CLIENT" });
+    const token = createToken(user);
+    res.status(201).json({
+      message: "Registration successful!",
+      token: token,
+    });
   } catch (err) {
     res.status(err.status || 500).json({ message:err.message });
   }

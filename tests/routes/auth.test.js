@@ -102,7 +102,6 @@ describe("Test authentication endpoints", () => {
         expect(response.status).toBe(500);
       });
 
-
       test("Return 201 when a client successfully registers", async () =>{
         const response = await request.post("/register").send({
           username: "new client",
@@ -110,6 +109,16 @@ describe("Test authentication endpoints", () => {
         });
         expect(response.status).toBe(201);
       });
+
+      test("Return a JWT when registration is successful", async () =>{
+        const response = await request.post("/register").send({
+          username: "another new client",
+          password: "another new client",
+        });
+        expect(response.body.token).toBeTruthy();
+      });
+
+
 
     });
     
